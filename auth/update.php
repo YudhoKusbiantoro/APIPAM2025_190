@@ -12,7 +12,6 @@ foreach ($required as $field) {
     }
 }
 
-// Ambil data user asli
 $stmt = $pdo->prepare("SELECT lab_id FROM users WHERE id = ?");
 $stmt->execute([$data['id']]);
 $targetUser = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -23,7 +22,6 @@ if (!$targetUser) {
     exit;
 }
 
-// Gunakan lab_id asli (jangan percaya lab_id dari request)
 $lab_id = $targetUser['lab_id'];
 
 // Cek duplikat username di lab yang sama

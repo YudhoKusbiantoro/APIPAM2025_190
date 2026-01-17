@@ -2,7 +2,7 @@
 require_once '../koneks.php';
 
 try {
-    // ✅ HAPUS created_at karena tidak ada di tabel
+ 
     $stmt = $pdo->prepare("SELECT id, institusi, nama_lab FROM lab");
     $stmt->execute();
     $labs = $stmt->fetchAll(PDO::FETCH_ASSOC);

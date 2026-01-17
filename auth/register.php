@@ -6,7 +6,7 @@ require_once '../koneks.php';
 
 $data = json_decode(file_get_contents('php://input'), true);
 
-// === 1. CEK KELENGKAPAN DATA ===
+//
 if (!$data || !isset($data['nama']) || !isset($data['username']) || !isset($data['password'])) {
     http_response_code(400);
     echo json_encode(['status' => 'error', 'message' => 'Semua data harus diisi.']);
@@ -17,7 +17,7 @@ $nama = trim($data['nama']);
 $username = trim($data['username']);
 $password = $data['password'];
 
-// === 2. VALIDASI USERNAME ===
+//
 if (!preg_match('/^[a-zA-Z0-9_-]{6,}$/', $username)) {
     http_response_code(400);
     echo json_encode([
@@ -27,8 +27,6 @@ if (!preg_match('/^[a-zA-Z0-9_-]{6,}$/', $username)) {
     exit;
 }
 
-// === 3. VALIDASI PASSWORD ===
-// === 3. VALIDASI PASSWORD ===
 if (!preg_match('/^[a-zA-Z0-9]{6,}$/', $password)) {
     http_response_code(400);
     echo json_encode([
@@ -47,18 +45,17 @@ if ($stmt->fetch()) {
     exit;
 }
 
-// === 5. PROSES REGISTRASI ===
 try {
     $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
     
     if (isset($data['institusi']) && isset($data['nama_lab'])) {
-        // Admin: buat lab baru
+     
         $stmt = $pdo->prepare("INSERT INTO lab (institusi, nama_lab) VALUES (?, ?)");
         $stmt->execute([$data['institusi'], $data['nama_lab']]);
         $lab_id = $pdo->lastInsertId();
         $role = 'admin';
     } else {
-        // User: pakai lab_id yang dikirim
+
         $lab_id = $data['lab_id'] ?? null;
         $role = 'user';
         

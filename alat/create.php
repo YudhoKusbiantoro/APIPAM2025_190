@@ -17,7 +17,7 @@ if ((int)$data['lab_id'] <= 0) {
     echo json_encode(['status' => 'error', 'message' => 'lab_id tidak valid']);
     exit;
 }
-// ✅ CEK DUPLIKAT NAMA ALAT DI LAB YANG SAMA
+//CEK DUPLIKAT NAMA ALAT DI LAB YANG SAMA
 $stmt = $pdo->prepare("SELECT id FROM alat WHERE nama_alat = ? AND lab_id = ?");
 $stmt->execute([$data['nama'], (int)$data['lab_id']]);
 if ($stmt->fetch()) {

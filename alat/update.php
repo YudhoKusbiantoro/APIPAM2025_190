@@ -11,7 +11,7 @@ foreach ($required as $field) {
         exit;
     }
 }
-// ✅ CEK DUPLIKAT NAMA ALAT (KECUALI DIRI SENDIRI)
+//CEK DUPLIKAT NAMA ALAT 
 $stmt = $pdo->prepare("
     SELECT id FROM alat 
     WHERE nama_alat = ? AND lab_id = ? AND id != ?

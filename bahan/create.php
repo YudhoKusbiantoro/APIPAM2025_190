@@ -12,13 +12,13 @@ foreach ($required as $field) {
     }
 }
 
-// ✅ Validasi lab_id
+// Validasi lab_id
 if ((int)$data['lab_id'] <= 0) {
     http_response_code(400);
     echo json_encode(['status' => 'error', 'message' => 'lab_id tidak valid']);
     exit;
 }
-// ✅ CEK DUPLIKAT NAMA BAHAN DI LAB YANG SAMA
+// CEK DUPLIKAT NAMA BAHAN DI LAB YANG SAMA
 $stmt = $pdo->prepare("SELECT id FROM bahan WHERE nama_bahan = ? AND lab_id = ?");
 $stmt->execute([$data['nama'], (int)$data['lab_id']]);
 if ($stmt->fetch()) {

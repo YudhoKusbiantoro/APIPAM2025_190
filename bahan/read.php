@@ -10,7 +10,6 @@ if (!$lab_id) {
     exit;
 }
 
-// ✅ Query SQL bersih tanpa komentar atau syntax error
 $stmt = $pdo->prepare("
     SELECT 
         b.id, 

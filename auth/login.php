@@ -1,7 +1,7 @@
 <?php
 require_once '../koneks.php';
 
-// Ambil data dari POST
+
 $data = json_decode(file_get_contents('php://input'), true);
 
 if (!isset($data['username']) || !isset($data['password'])) {
@@ -13,7 +13,7 @@ if (!isset($data['username']) || !isset($data['password'])) {
 $username = trim($data['username']);
 $password = $data['password'];
 
-// Cari user + data lab dengan JOIN
+
 $stmt = $pdo->prepare("
     SELECT 
         u.id, 
@@ -37,14 +37,12 @@ if (!$user) {
     exit;
 }
 
-// Verifikasi password
 if (!password_verify($password, $user['password'])) {
     http_response_code(401);
     echo json_encode(['status' => 'error', 'message' => 'Username atau password salah.']);
     exit;
 }
 
-// Hapus password dari respons
 unset($user['password']);
 
 http_response_code(200);

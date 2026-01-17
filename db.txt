@@ -1,0 +1,61 @@
+-- ================================
+-- DATABASE: inventarislabor
+-- ================================
+
+CREATE DATABASE IF NOT EXISTS inventarislabor;
+USE inventarislabor;
+
+-- ================================
+-- TABLE: lab
+-- ================================
+CREATE TABLE lab (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    institusi VARCHAR(100) NOT NULL,
+    nama_lab VARCHAR(100) NOT NULL
+);
+
+-- ================================
+-- TABLE: users
+-- ================================
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nama VARCHAR(100) NOT NULL,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    role ENUM('admin','user') NOT NULL,
+    lab_id INT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_users_lab FOREIGN KEY (lab_id) REFERENCES lab(id)
+);
+
+-- ================================
+-- TABLE: bahan
+-- ================================
+CREATE TABLE bahan (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nama_bahan VARCHAR(100) NOT NULL,
+    volume VARCHAR(20),
+    expired DATE,
+    kondisi ENUM('Baik','Rusak','Expired') NOT NULL,
+    lab_id INT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_bahan_lab FOREIGN KEY (lab_id) REFERENCES lab(id)
+
+);
+
+-- ================================
+-- TABLE: alat
+-- ================================
+CREATE TABLE alat (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    lab_id INT NOT NULL,
+    nama_alat VARCHAR(100) NOT NULL,
+    jumlah INT NOT NULL,
+    kondisi ENUM('Baik','Rusak') NOT NULL,
+    terakhir_kalibrasi DATE,
+    interval_kalibrasi INT,
+    satuan_interval ENUM('Hari','Bulan','Tahun'),
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_alat_lab FOREIGN KEY (lab_id) REFERENCES lab(id)
+
+);
